@@ -1,0 +1,14 @@
+- name: Ejemplo de playbook con facts
+  hosts: servidores_web
+  tasks:
+    - name: Imprimir Sistema Operativo
+      debug:
+        msg: "El sistema operativo es {{ansible_facts['distribution']}} {{ansible_facts['distribution_version']}}"
+    
+    - name: Realizar tarea con condicional
+      debug:
+        msg: "Tarea que solo se ejecuta cuando no es Ubuntu 22.04"
+      when:
+        - ansible_facts['distribution'] == 'Ubuntu'
+        - ansible_facts['distribution_version'] == '22.04'
+        

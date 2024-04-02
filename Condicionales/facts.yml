@@ -1,0 +1,6 @@
+---
+- hosts: servidores_web
+  tasks:
+    - name: Obtener facts
+      debug:
+        var: ansible_facts["all_ipv4_addresses"]
