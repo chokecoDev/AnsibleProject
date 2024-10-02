@@ -52,4 +52,4 @@ jobs:
       - name: Run a one-line script
         run: echo "STEP_ENV_VAR=This is a step-level environment variable" >> $GITHUB_ENV
       - name: Print step-level environment variable
-        run: echo "Step env var: $STEP_ENV_VAR"
+        run: echo ${{ env.STEP_ENV_VAR }}
