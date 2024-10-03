@@ -15,7 +15,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create Issue
-        uses: peter-evans/create-issue-from-file@v3
+        uses: actions/github-script@v6
         with:
-          title: ${{ github.event.inputs.title }}
-          body: ${{ github.event.inputs.body }}
+          script: |
+            const title = '${{ github.event.inputs.title }}';
+            const body = '${{ github.event.inputs.body || '' }}';
+
+            const { data: issue } = await github.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body
+            });
+
+            console.log(`Issue created: ${issue.html_url}`);
