@@ -1,31 +1,27 @@
-name: Create Issue
+name: Commit Changes
 
 on:
   workflow_dispatch:
     inputs:
-      title:
-        description: 'Title of the issue'
+      message:
+        description: 'Commit message'
         required: true
-      body:
-        description: 'Body of the issue'
-        required: false
 
 jobs:
-  create_issue:
+  commit_changes:
     runs-on: ubuntu-latest
     steps:
-      - name: Create Issue
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const title = '${{ github.event.inputs.title }}';
-            const body = '${{ github.event.inputs.body || '' }}';
-
-            const { data: issue } = await github.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title,
-              body
-            });
-
-            console.log(`Issue created: ${issue.html_url}`);
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        
+      - name: Make Changes
+        run: |
+          echo "Changes made on $(date)" >> changes.txt
+          
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@github.com"
+          git add changes.txt
+          git commit -m "${{ github.event.inputs.message }}"
+          git push
