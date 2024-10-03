@@ -5,7 +5,10 @@ on:
     inputs:
       message:
         description: 'Commit message'
-        required: true
+        required: false
+  pull_request:
+    branches: [ "main" ]
+
 
 permissions:
   contents: write
@@ -26,7 +29,7 @@ jobs:
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
           git add changes.txt
-          git commit -m "${{ github.event.inputs.message }}"
+          git commit -m "abddf"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
